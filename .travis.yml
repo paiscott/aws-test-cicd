@@ -23,3 +23,13 @@ deploy:
   region: us-east-1
   on:
     branch: master
+- provider: codedeploy
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  bucket: test-paiscott
+  key: workshop-${TRAVIS_BUILD_NUMBER}.zip
+  application: paiscott-cicd
+  deployment_group: master
+  region: us-east-1
+  on:
+    branch: master
