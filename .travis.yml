@@ -1,0 +1,25 @@
+language: bash
+before_deploy:
+  - zip -r latest *
+  - test -d dpl_cd_upload || mkdir dpl_cd_upload
+  - mv latest.zip dpl_cd_upload/test-${TRAVIS_BUILD_NUMBER}.zip
+deploy:
+- provider: s3
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: 
+    secure: $AWS_SECRET_ACCESS_KEY
+  local_dir: dpl_cd_upload
+  skip_cleanup: true
+  region: us-east-1
+  on:
+    branch: master
+  bucket: test-paiscott
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  bucket: test-paiscott
+  key: test-${TRAVIS_BUILD_NUMBER}.zip
+  application: paiscott-cicd
+  deployment_group: master
+  region: us-east-1
+  on:
+    branch: master
